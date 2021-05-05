@@ -11,11 +11,22 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		// Override point for customization after application launch.
+		setNavBar()
 		return true
+	}
+
+	private func setNavBar() {
+		let appearance = UINavigationBarAppearance()
+
+		appearance.titleTextAttributes = [.foregroundColor: UIColor.cyan]
+		appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.cyan]
+
+		UINavigationBar.appearance().prefersLargeTitles = true
+		UINavigationBar.appearance().tintColor = UIColor.cyan
+		UINavigationBar.appearance().standardAppearance = appearance
+		UINavigationBar.appearance().compactAppearance = appearance
+		UINavigationBar.appearance().scrollEdgeAppearance = appearance
 	}
 
 	// MARK: UISceneSession Lifecycle
