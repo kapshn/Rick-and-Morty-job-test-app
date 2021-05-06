@@ -57,6 +57,7 @@ extension EpisodesViewController: UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
 		let currentEpisode = episodesViewModel.episodesSubject.value[indexPath.row]
 		let episodeDetailVC = EpisodeDetailViewController(episode: currentEpisode)
 
@@ -66,7 +67,7 @@ extension EpisodesViewController: UITableViewDelegate {
 	private func configureTableView(){
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		tableView.delegate = self
-		tableView.allowsSelection = false
+		tableView.allowsSelection = true
 		tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
 		view.addSubview(tableView)
 		NSLayoutConstraint.activate([
