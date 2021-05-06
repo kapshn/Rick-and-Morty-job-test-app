@@ -6,21 +6,23 @@
 //
 
 import UIKit
+import Combine
 
 class EpisodeDetailViewController: UIViewController {
 	//UI Variable
 	private var collectionView: UICollectionView!
-	private let searchController = UISearchController()
 	//Variables
 	private var dataSource: UICollectionViewDiffableDataSource<Section, Character>!
+	private var cancellables = Set<AnyCancellable>()
+	lazy private var charactersViewModel = CharactersViewModel()
 
-	private var charactersViewModel = CharactersViewModel()
-//	private var characters: [Character]
 	private var episode: Episode
 
 	init(episode: Episode) {
 		self.episode = episode
 		super.init(nibName: nil, bundle: nil)
+
+		getCharactersByDetailQuery()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -33,7 +35,7 @@ class EpisodeDetailViewController: UIViewController {
 		setupCollectionView()
 		configureDataSource()
 		setViewModelListeners()
-		charactersViewModel.getCharacters()
+		charactersViewModel.getMultipleCharacters()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -45,7 +47,7 @@ class EpisodeDetailViewController: UIViewController {
 	}
 
 	private func configureNavBar() {
-		title = "Characters in episode"
+		title = "Characters in " + episode.episodeCode
 	}
 
 	private func setupCollectionView() {
@@ -73,20 +75,20 @@ class EpisodeDetailViewController: UIViewController {
 	}
 
 	private func setViewModelListeners() {
-//		Publishers.CombineLatest(charactersViewModel.isFirstLoadingPageSubject, charactersViewModel.charactersSubject).sink {[weak self] (isLoading, characters) in
-//			if isLoading {
-//				self?.collectionView.setLoading()
-//			} else {
-//				self?.collectionView.restore()
-//				self?.createSnapshot(from: characters)
-//				if characters.isEmpty {
-//					self?.collectionView.setEmptyMessage(message: "No character found")
-//				} else {
-//					self?.collectionView.restore()
-//				}
-//			}
-//		}
-//		.store(in: &cancellables)
+		Publishers.CombineLatest(charactersViewModel.isFirstLoadingPageSubject, charactersViewModel.charactersSubject).sink {[weak self] (isLoading, characters) in
+			if isLoading {
+				self?.collectionView.setLoading()
+			} else {
+				self?.collectionView.restore()
+				self?.createSnapshot(from: characters)
+				if characters.isEmpty {
+					self?.collectionView.setEmptyMessage(message: "No character found")
+				} else {
+					self?.collectionView.restore()
+				}
+			}
+		}
+		.store(in: &cancellables)
 	}
 }
 
@@ -118,11 +120,28 @@ extension EpisodeDetailViewController: UICollectionViewDelegate {
 		let scrollViewHeight = scrollView.frame.size.height
 
 		if position > (collectionViewContentSizeHeight - 100 - scrollViewHeight) {
-			charactersViewModel.getCharacters()
+			charactersViewModel.getMultipleCharacters()
 		}
 	}
 
+	private func getCharacterArray() -> String{
+		var characterArray = ""
+		let charactersURLFromEpisode = episode.characters
+		for characterURL in charactersURLFromEpisode {
+			var splitUpCharacterURL = characterURL.split(separator: "/")
+			characterArray += splitUpCharacterURL.removeLast() + ","
+		}
+		if !characterArray.isEmpty {
+			characterArray.removeLast()
+		}
+		return characterArray
+	}
 
+	private func getCharactersByDetailQuery() {
+		charactersViewModel.currentDetailQuery = getCharacterArray()
+		charactersViewModel.canLoadMorePages = true
+		charactersViewModel.getMultipleCharacters()
+	}
 }
 
 // MARK: - EXTENSION

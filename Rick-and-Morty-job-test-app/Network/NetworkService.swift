@@ -91,6 +91,23 @@ extension NetworkService {
 			.store(in: &self.cancellables)
 		}
 	}
+
+	func getMultipleCharacters(_ characterArray: String) -> Future<DetailAPIResponse<Character>, APIError> {
+		var urlRequest = URLRequest(url:Endpoint.getMultipleCharacters(charactersArray: characterArray).url)
+
+		urlRequest.httpMethod = HTTPTypes.GET.rawValue
+		let publisher: AnyPublisher<DetailAPIResponse<Character>, Error> = fetchWithURLRequest(urlRequest)
+		return Future { promise in
+			publisher.sink { (completion) in
+				if case .failure(let error) = completion, let apiError = error as? APIError {
+					promise(.failure(apiError))
+				}
+			} receiveValue: { (responseModel) in
+				promise(.success(responseModel))
+			}
+			.store(in: &self.cancellables)
+		}
+	}
 }
 
 struct APIError: Decodable, Error {
@@ -107,6 +124,14 @@ struct GeneralAPIResponse<T: Decodable>: Decodable {
 
 	enum CodingKeys: String, CodingKey {
 		case pageInfo = "info"
+		case results = "results"
+	}
+}
+
+struct DetailAPIResponse<T: Decodable>: Decodable {
+	let results: [T]
+
+	enum CodingKeys: String, CodingKey {
 		case results = "results"
 	}
 }

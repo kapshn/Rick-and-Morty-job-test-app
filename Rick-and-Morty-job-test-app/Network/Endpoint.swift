@@ -47,4 +47,10 @@ extension Endpoint {
 			]
 		)
 	}
+	static func getMultipleCharacters(charactersArray: String) -> Self {
+		Endpoint(
+			path: "/api/character/" + charactersArray,
+			queryItems: []
+		)
+	}
 }

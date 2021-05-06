@@ -20,10 +20,11 @@ class CharactersViewModel {
 	var currentGender = ""
 	var currentPage = 1
 	var canLoadMorePages = true
+	var currentDetailQuery = "1,2"
 
 	lazy private var networkService = NetworkService()
 
-	//Get characters from API
+	// MARK: - Get characters from API
 	func getCharacters() {
 		guard !isLoadingPage && canLoadMorePages else {
 			return
@@ -44,6 +45,28 @@ class CharactersViewModel {
 				self?.canLoadMorePages = false
 			}
 			self?.currentPage += 1
+			self?.charactersSubject.value.append(contentsOf: characterResponseModel.results)
+			self?.isFirstLoadingPageSubject.value = false
+			self?.isLoadingPage = false
+		}
+		.store(in: &cancellables)
+	}
+
+	// MARK: - Get characters from API (Episode Detail)
+	func getMultipleCharacters() {
+		guard !isLoadingPage && canLoadMorePages else {
+			return
+		}
+		isLoadingPage = true
+		networkService.getMultipleCharacters(currentDetailQuery).sink {[weak self] (completion) in
+			if case .failure(let apiError) = completion {
+				self?.charactersSubject.value.removeAll()
+				self?.isFirstLoadingPageSubject.value = false
+				self?.isLoadingPage = false
+				print(apiError.errorMessage)
+			}
+		} receiveValue: {[weak self] (characterResponseModel) in
+			self?.canLoadMorePages = false
 			self?.charactersSubject.value.append(contentsOf: characterResponseModel.results)
 			self?.isFirstLoadingPageSubject.value = false
 			self?.isLoadingPage = false
