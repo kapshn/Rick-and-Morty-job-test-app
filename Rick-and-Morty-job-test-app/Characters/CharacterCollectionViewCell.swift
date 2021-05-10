@@ -14,7 +14,8 @@ class CharacterCollectionViewCell: UICollectionViewCell {
 
 	var characterImageView = UIImageView()
 	var nameLabel = UILabel()
-
+	var favoriteIcon = UIImageView()
+	var character = Character(id: 0, name: "empty", imageURL: "empty", created: Date())
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -35,7 +36,9 @@ class CharacterCollectionViewCell: UICollectionViewCell {
 		characterImageView.layer.cornerRadius = 10.0
 		characterImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
 
+		//favoriteIcon.image = UIImage(systemName: "star")
 
+		characterImageView.addSubview(favoriteIcon)
 		addSubview(characterImageView)
 		addSubview(nameLabel)
 
@@ -47,12 +50,18 @@ class CharacterCollectionViewCell: UICollectionViewCell {
 
 		characterImageView.translatesAutoresizingMaskIntoConstraints = false
 		nameLabel.translatesAutoresizingMaskIntoConstraints = false
+		favoriteIcon.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
 			characterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
 			characterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
 			characterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
 			characterImageView.heightAnchor.constraint(equalTo: characterImageView.widthAnchor, constant: -50),
+
+			favoriteIcon.topAnchor.constraint(equalTo: characterImageView.topAnchor, constant: padding),
+			favoriteIcon.rightAnchor.constraint(equalTo: characterImageView.rightAnchor, constant: -padding),
+			favoriteIcon.widthAnchor.constraint(equalTo: characterImageView.widthAnchor, multiplier: 0.25 ),
+			favoriteIcon.heightAnchor.constraint(equalTo: favoriteIcon.widthAnchor),
 
 			nameLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor, constant: padding),
 			nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
@@ -66,6 +75,20 @@ class CharacterCollectionViewCell: UICollectionViewCell {
 		characterImageView.sd_setImage(with: imageURL)
 		characterImageView.contentMode = UIView.ContentMode.scaleAspectFill
 		nameLabel.text = character.name
+		self.character = character
+		changeFavoriteIconState(character)
+	}
+
+	func changeFavoriteIconState(_ character: Character) {
+		let state = character.getFavoriteState()
+		favoriteIcon.image = nil
+		if state {
+			favoriteIcon.image = UIImage(systemName: "star.fill")
+
+		} else {
+			favoriteIcon.image = UIImage(systemName: "star")
+		}
+		favoriteIcon.setNeedsDisplay()
 	}
 
 	required init?(coder: NSCoder) {

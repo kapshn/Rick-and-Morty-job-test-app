@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		910B2CF08D39DFC69C37CED6 /* Pods_Rick_and_Morty_job_test_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1FD18A15B49B8B7F656A16 /* Pods_Rick_and_Morty_job_test_app.framework */; };
+		A724E65C2649256700D6F5AA /* FavoritesCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A724E65B2649256600D6F5AA /* FavoritesCharacterViewController.swift */; };
 		A76D2D9F2641937A00811617 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76D2D9E2641937A00811617 /* AppDelegate.swift */; };
 		A76D2DA12641937A00811617 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76D2DA02641937A00811617 /* SceneDelegate.swift */; };
 		A76D2DA92641937A00811617 /* Rick_and_Morty_job_test_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A76D2DA72641937A00811617 /* Rick_and_Morty_job_test_app.xcdatamodeld */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A724E65B2649256600D6F5AA /* FavoritesCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCharacterViewController.swift; sourceTree = "<group>"; };
 		A76D2D9B2641937A00811617 /* Rick-and-Morty-job-test-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rick-and-Morty-job-test-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A76D2D9E2641937A00811617 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A76D2DA02641937A00811617 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +72,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A724E65A2649254100D6F5AA /* FavoritesCharacter */ = {
+			isa = PBXGroup;
+			children = (
+				A724E65B2649256600D6F5AA /* FavoritesCharacterViewController.swift */,
+			);
+			path = FavoritesCharacter;
+			sourceTree = "<group>";
+		};
 		A76D2D922641937A00811617 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +101,7 @@
 		A76D2D9D2641937A00811617 /* Rick-and-Morty-job-test-app */ = {
 			isa = PBXGroup;
 			children = (
+				A724E65A2649254100D6F5AA /* FavoritesCharacter */,
 				A76D2DC92642CA2200811617 /* Episodes */,
 				A76D2DC02642A52900811617 /* Model */,
 				A76D2DBD2642A3B700811617 /* Network */,
@@ -286,6 +297,7 @@
 				A76D2DCF2642D7C200811617 /* EpisodeDetailViewController.swift in Sources */,
 				A76D2DC62642A80400811617 /* CharacterCollectionViewCell.swift in Sources */,
 				A76D2DC82642AD3800811617 /* Endpoint.swift in Sources */,
+				A724E65C2649256700D6F5AA /* FavoritesCharacterViewController.swift in Sources */,
 				A76D2DCD2642CBA700811617 /* EpisodesViewController.swift in Sources */,
 				A76D2DA12641937A00811617 /* SceneDelegate.swift in Sources */,
 			);

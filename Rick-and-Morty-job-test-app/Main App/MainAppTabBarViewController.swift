@@ -9,7 +9,7 @@ import UIKit
 
 class MainAppTabBarViewController: UITabBarController {
 
-//	let favoritesVC = UINavigationController(rootViewController: FavoritesViewController())
+	let favoritesVC = UINavigationController(rootViewController: FavoritesCharacterViewController())
 	let episodesVC = UINavigationController(rootViewController: EpisodesViewController())
 	let charactersVC = UINavigationController(rootViewController: CharactersViewController())
 
@@ -22,12 +22,12 @@ class MainAppTabBarViewController: UITabBarController {
 	func configureUITabBarItems(){
 		charactersVC.tabBarItem = UITabBarItem(title: "Characters", image: UIImage(systemName: "person.3"), tag: 0)
 		episodesVC.tabBarItem = UITabBarItem(title: "Episodes", image: UIImage(systemName: "tv"), tag: 1)
-		//		favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star"), tag: 2)
+		favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star"), tag: 2)
 	}
 
 	func configureTabBar(){
 		tabBar.tintColor = UIColor.cyan
-		setViewControllers([charactersVC, episodesVC /*, favoritesVC*/], animated: true)
+		setViewControllers([charactersVC, episodesVC , favoritesVC], animated: true)
 	}
 
 }

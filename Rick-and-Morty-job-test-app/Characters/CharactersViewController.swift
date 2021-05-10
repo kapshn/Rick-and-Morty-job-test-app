@@ -114,6 +114,13 @@ extension CharactersViewController: UICollectionViewDelegate {
 		}
 	}
 
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let currentCharacter = charactersViewModel.charactersSubject.value[indexPath.row]
+		currentCharacter.changeFavoriteState()
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCollectionViewCell.reuseIdentifier, for: indexPath) as? CharacterCollectionViewCell
+		cell?.changeFavoriteIconState(currentCharacter)
+		collectionView.reloadData()
+	}
 
 }
 

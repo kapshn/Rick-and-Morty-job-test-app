@@ -24,4 +24,13 @@ struct Character: Decodable, Hashable {
 	func hash(into hasher: inout Hasher) {
 		hasher.combine(uuid)
 	}
+
+	func changeFavoriteState() {
+		let state = !getFavoriteState()
+		UserDefaults.standard.set(state, forKey: "Rick_and_Morty_user_defaults_" + String(self.id))
+	}
+
+	func getFavoriteState() -> Bool {
+		return UserDefaults.standard.bool(forKey: "Rick_and_Morty_user_defaults_" + String(self.id))
+	}
 }

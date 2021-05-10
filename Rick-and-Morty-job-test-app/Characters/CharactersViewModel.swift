@@ -67,7 +67,7 @@ class CharactersViewModel {
 			}
 		} receiveValue: {[weak self] (characterResponseModel) in
 			self?.canLoadMorePages = false
-			self?.charactersSubject.value.append(contentsOf: characterResponseModel.results)
+			self?.charactersSubject.value.append(contentsOf: characterResponseModel)
 			self?.isFirstLoadingPageSubject.value = false
 			self?.isLoadingPage = false
 		}

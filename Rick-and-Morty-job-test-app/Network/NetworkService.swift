@@ -92,11 +92,11 @@ extension NetworkService {
 		}
 	}
 
-	func getMultipleCharacters(_ characterArray: String) -> Future<DetailAPIResponse<Character>, APIError> {
+	func getMultipleCharacters(_ characterArray: String) -> Future<[Character], APIError> {
 		var urlRequest = URLRequest(url:Endpoint.getMultipleCharacters(charactersArray: characterArray).url)
 
 		urlRequest.httpMethod = HTTPTypes.GET.rawValue
-		let publisher: AnyPublisher<DetailAPIResponse<Character>, Error> = fetchWithURLRequest(urlRequest)
+		let publisher: AnyPublisher<[Character], Error> = fetchWithURLRequest(urlRequest)
 		return Future { promise in
 			publisher.sink { (completion) in
 				if case .failure(let error) = completion, let apiError = error as? APIError {
@@ -124,14 +124,6 @@ struct GeneralAPIResponse<T: Decodable>: Decodable {
 
 	enum CodingKeys: String, CodingKey {
 		case pageInfo = "info"
-		case results = "results"
-	}
-}
-
-struct DetailAPIResponse<T: Decodable>: Decodable {
-	let results: [T]
-
-	enum CodingKeys: String, CodingKey {
 		case results = "results"
 	}
 }
